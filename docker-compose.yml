@@ -1,0 +1,127 @@
+version: "3.9"
+
+services:
+  proxy:
+    container_name: mc-proxy
+    image: itzg/bungeecord
+    ports:
+      - "25565:25565"
+    volumes:
+      - ./proxy:/server
+      - //var/run/docker.sock:/var/run/docker.sock
+    environment:
+      TYPE: "WATERFALL"
+    restart: always
+    networks:
+      - minecraft
+  hub:
+    container_name: mc-hub
+    image: itzg/minecraft-server
+    stdin_open: true
+    user: root
+    expose:
+      - "25565"
+    environment:
+      OPS: "Arcanuo"
+      SERVER_NAME: "Hub"
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      USE_AIKAR_FLAGS: "TRUE"
+      TYPE: "PURPUR"
+      MAX_MEMORY: "2G"
+      #Downloads from spigot, viaversion, viabackwards, vault, protocollib - in order - these should be relatively ok to autodownload, as requires spigot build approvals?
+      SPIGET_RESOURCES: 19254,27448,34315,1997
+    volumes:
+      - ./common/ops.json:/data/config/ops.json
+      - ./hub:/data
+    networks:
+      - minecraft
+
+  factions:
+    container_name: mc-factions
+    image: itzg/minecraft-server
+    stdin_open: true
+    expose:
+      - "25565"
+    environment:
+      SERVER_NAME: "Factions"
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      USE_AIKAR_FLAGS: "TRUE"
+      TYPE: "PURPUR"
+      #Downloads from spigot, viaversion, viabackwards, vault, protocollib - in order - these should be relatively ok to autodownload, as requires spigot build approvals?
+      SPIGET_RESOURCES: 19254,27448,34315,1997
+
+    volumes:
+      - ./common/ops.json:/data/config/ops.json
+      - ./factions:/data
+    networks:
+      - minecraft
+
+  skyblock:
+    container_name: mc-skyblock
+    image: itzg/minecraft-server
+    stdin_open: true
+    expose:
+      - "25565"
+    environment:
+      SERVER_NAME: "Skyblock"
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      USE_AIKAR_FLAGS: "TRUE"
+      TYPE: "PURPUR"
+      #Downloads from spigot, viaversion, viabackwards, vault, protocollib - in order - these should be relatively ok to autodownload, as requires spigot build approvals?
+      SPIGET_RESOURCES: 19254,27448,34315,1997
+
+    volumes:
+      - ./common/ops.json:/data/config/ops.json
+      - ./skyblock:/data
+    networks:
+      - minecraft
+
+  build:
+    container_name: mc-build
+    image: itzg/minecraft-server
+    stdin_open: true
+    expose:
+      - "25565"
+    environment:
+      SERVER_NAME: "Build"
+      EULA: "TRUE"
+      ONLINE_MODE: "FALSE"
+      USE_AIKAR_FLAGS: "TRUE"
+      TYPE: "PURPUR"
+      ENFORCE_WHITELIST: "TRUE"
+      #Downloads from spigot, viaversion, viabackwards, vault, protocollib - in order - these should be relatively ok to autodownload, as requires spigot build approvals?
+      SPIGET_RESOURCES: 19254,27448,34315,1997
+
+    volumes:
+      - ./common/ops.json:/data/config/ops.json
+      - ./build:/data
+    networks:
+      - minecraft
+
+  mariadb:
+    container_name: mariadb
+    image:  bitnami/mariadb:latest
+    ports:
+      - '3307:3306'
+    volumes:
+      - 'mariadb:/bitnami/mariadb'
+    environment:
+      # ALLOW_EMPTY_PASSWORD should be YES when creating a new user for the first time.
+      #- ALLOW_EMPTY_PASSWORD=yes
+      - MARIADB_USER=${MARIADB_USER}
+      - MARIADB_PASSWORD=${MARIADB_PASSWORD}
+      - MARIADB_DATABASE=${MARIADB_DATABASE}
+
+
+networks:
+  minecraft:
+    driver: bridge
+
+
+
+volumes:
+  worlds:
+  mariadb:

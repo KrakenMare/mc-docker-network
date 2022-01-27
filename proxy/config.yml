@@ -1,0 +1,84 @@
+listeners:
+- query_port: 25565
+  motd: |-
+    &b&lNetwork In Containers!
+  priorities:
+  - hub
+  bind_local_address: true
+  tab_list: GLOBAL_PING
+  query_enabled: false
+  host: 0.0.0.0:25565
+  max_players: 250
+  tab_size: 60
+  ping_passthrough: false
+  force_default_server: true
+  forced_hosts:
+    pvp.md-5.net: pvp
+  proxy_protocol: false
+remote_ping_cache: -1
+network_compression_threshold: 256
+permissions:
+  default:
+  - bungeecord.command.server
+  - bungeecord.command.list
+  - network.reload
+  admin:
+  - bungeecord.command.alert
+  - bungeecord.command.end
+  - bungeecord.command.ip
+  - bungeecord.command.reload
+  - network.reload
+  - realm.admin
+  owner:
+  - realm.owner
+  - bungeecord.command.alert
+  - bungeecord.command.end
+  - bungeecord.command.ip
+  - bungeecord.command.reload
+  - bungeecord.command.send
+log_pings: true
+servers:
+  hub:
+    motd: |-
+      &c&lMinecraft
+    address: mc-hub:25565
+    restricted: false
+  game:
+    motd: |-
+      &c&lFactions
+    address: mc-factions:25565
+    restricted: false
+  build:
+    motd: |-
+      &c&lBuild
+    address: mc-build:25565
+    restricted: false
+  skyblock:
+    motd: |-
+      &c&lSkyblock
+    address: mc-skyblock:25565
+    restricted: false
+connection_throttle_limit: 3
+server_connect_timeout: 5000
+timeout: 30000
+player_limit: 250
+ip_forward: true
+groups:
+  Arcanuo:
+  - owner
+  - admin
+  Liquake:
+  - owner
+  - admin
+  LiquakeDev:
+  - owner
+  - admin
+remote_ping_timeout: 5000
+connection_throttle: 4000
+log_commands: false
+prevent_proxy_connections: false
+online_mode: true
+forge_support: true
+disabled_commands:
+- disabledcommandhere
+
